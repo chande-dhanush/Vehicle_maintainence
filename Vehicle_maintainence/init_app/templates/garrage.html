@@ -1,0 +1,79 @@
+<html lang="en" data-theme="autumn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garages</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    {% include "navbar.html" %}
+    
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="container mx-auto mt-4">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} flex items-center gap-2">
+                <span>{{ message }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="container mx-auto px-4 py-6">
+        <h1 class="text-5xl font-bold text-center mb-6">Garage Details</h1>
+        
+        <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
+            <table class="table w-full">
+                <thead>
+                    <tr class="bg-gray-200 text-lg">
+                        <th>Garage ID</th>
+                        <th>Garage Name</th>
+                        <th>Address</th>
+                        <th>Phone No</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not data %}
+                        <tr>
+                            <td colspan="5" class="text-center py-4">No records found</td>
+                        </tr>
+                    {% else %}
+                        {% for row in data %}
+                        <tr class="border-b">
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                            <td>{{ row[2] }}</td>
+                            <td>{{ row[3] }}</td>
+                            <td>
+                                <form method="POST">
+                                    <input type="hidden" name="id" value="{{ row[0] }}">
+                                    <button class="btn btn-error btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add Garage Form -->
+        <div class="mt-10 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4">Add Garage</h2>
+            <form method="post" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <input type="text" placeholder="Garage ID" class="input input-bordered w-full" name="garrage_id" required>
+                <input type="text" placeholder="Service ID" class="input input-bordered w-full" name="service_id" required>
+                <input type="text" placeholder="Garage Name" class="input input-bordered w-full" name="garrage_name" required>
+                <input type="text" placeholder="Address" class="input input-bordered w-full" name="address" required>
+                <input type="text" placeholder="Phone" class="input input-bordered w-full" name="phone" required>
+                <input type="text" placeholder="Vehicle No" class="input input-bordered w-full" name="vehicle_no" required>
+                <button class="btn btn-primary col-span-full" type="submit" name="action" value="garrages">Add Garage</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

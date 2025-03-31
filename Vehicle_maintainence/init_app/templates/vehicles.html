@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="autumn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicles</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    {% include "navbar.html" %}
+    
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="container mx-auto mt-4">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} flex items-center gap-2">
+                <span>{{ message }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="container mx-auto px-4 py-6">
+        <h1 class="text-5xl font-bold text-center mb-6">Vehicle Details</h1>
+        
+        <div class="overflow-x-auto bg-white rounded-lg shadow-lg">
+            <table class="table w-full">
+                <thead>
+                    <tr class="bg-gray-200 text-lg">
+                        <th>Vehicle No</th>
+                        <th>Model</th>
+                        <th>Year</th>
+                        <th>Fuel Type</th>
+                        <th>Mileage</th>
+                        <th>Owner Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if not data %}
+                        <tr>
+                            <td colspan="7" class="text-center py-4">No records found</td>
+                        </tr>
+                    {% else %}
+                        {% for row in data %}
+                        <tr class="border-b">
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                            <td>{{ row[3] }}</td>
+                            <td>{{ row[4] }}</td>
+                            <td>{{ row[5] }}</td>
+                            <td>{{ row[7] }}</td>
+                            <td>
+                                <form method="POST">
+                                    <input type="hidden" name="id" value="{{ row[0] }}">
+                                    <button class="btn btn-error btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add Vehicle Form -->
+        <div class="mt-10 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4">Add a New Vehicle</h2>
+            <form method="post" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <input type="text" placeholder="Vehicle No" class="input input-bordered w-full" name="vehicle_no" required>
+                <input type="text" placeholder="Model" class="input input-bordered w-full" name="model" required>
+                <input type="text" placeholder="Make" class="input input-bordered w-full" name="make" required>
+                <input type="text" placeholder="Year" class="input input-bordered w-full" name="year" required>
+                <input type="text" placeholder="Fuel Type" class="input input-bordered w-full" name="fuel_type" required>
+                <input type="text" placeholder="Mileage" class="input input-bordered w-full" name="mileage" required>
+                <input type="text" placeholder="Colour" class="input input-bordered w-full" name="colour" required>
+                <input type="text" placeholder="Owner Name" class="input input-bordered w-full" name="Owner_name" required>
+                <button class="btn btn-primary col-span-full" type="submit" name="action" value="vehicles">Add Vehicle</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

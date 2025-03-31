@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html data-theme="autumn">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.6.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+</head>
+<body>
+    {% include "navbar.html" %}
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="container mx-auto p-4">
+            {% for category, message in messages %}
+                <div role="alert" class="alert alert-{{ category }} shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>{{ message }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="text-center py-6">
+        <h1 class="text-5xl font-bold">Owner Details</h1>
+    </div>
+
+    <!-- Owners Table -->
+    <div class="overflow-x-auto p-4">
+        <table class="table w-full border border-gray-300 rounded-lg">
+            <thead>
+                <tr class="bg-gray-100 text-lg">
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if not data %}
+                <tr>
+                    <td colspan="5" class="text-center py-4">No records found</td>
+                </tr>
+                {% endif %}
+                {% for row in data %}
+                <tr class="hover:bg-gray-50">
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="id" value="{{ row[0] }}">
+                            <button class="btn btn-error btn-sm" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Owner Form -->
+    <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <h2 class="text-2xl font-semibold text-center mb-4">Add New Owner</h2>
+        <form method="post" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="text" placeholder="Enter Name" class="input input-bordered w-full" id="name" name="name" required />
+            <input type="text" placeholder="Enter Address" class="input input-bordered w-full" id="address" name="address" required />
+            <input type="text" placeholder="Enter Phone" class="input input-bordered w-full" id="phone" name="phone" required />
+            <input type="email" placeholder="Enter Email" class="input input-bordered w-full" id="email" name="email" required />
+            <div class="col-span-full text-center">
+                <button class="btn btn-primary w-full" type="submit" name="action" value="add_owner">Add Owner</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
