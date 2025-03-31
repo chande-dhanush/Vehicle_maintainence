@@ -10,14 +10,14 @@ from .database import add_garrage_details
 auth= Blueprint('auth',__name__)
 def connect_to_db():
     try:
-        db = mysql.connector.connect(user="root", password="Dhanush@2003",
-                                     host="localhost", port=3306, database="vehicles")
+        db = mysql.connector.connect(user="root", password="Enter Password",
+                                     host="localhost", port=Enter port no, database="vehicles")
         return db
     except mysql.connector.Error as err:
         raise err
 
 try:
-        conn = mysql.connector.connect(user="root", password="Dhanush@2003", host = "localhost",port = 3306,database="vehicles")
+        conn = mysql.connector.connect(user="root", password="enter password", host = "localhost",port = enter port no,database="vehicles")
 except:
     print("couldn't connect to server")
     print("\n \n Possible fix: Check if server is running")
